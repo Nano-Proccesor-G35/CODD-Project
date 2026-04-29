@@ -1,23 +1,3 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 03/03/2026 02:29:46 PM
--- Design Name: 
--- Module Name: TB_Multiplier_4 - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
-----------------------------------------------------------------------------------
-
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
@@ -55,13 +35,6 @@ UUT : Multiplier_4 PORT MAP (
     Y=>Y);
     
 PROCESS BEGIN
- 
- -- 111 0101 0101 1010 0101
-    A<="0101";
-    B<="1010";
-
--- random 
- WAIT FOR 100ns;
     
     A<="1010";
     B<="1001";
