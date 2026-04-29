@@ -1,23 +1,3 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 03/03/2026 02:20:09 PM
--- Design Name: 
--- Module Name: Multiplier_4 - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
-----------------------------------------------------------------------------------
-
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
@@ -39,7 +19,7 @@ end Multiplier_4;
 
 architecture Behavioral of Multiplier_4 is
 
-COMPONENT FA_0
+COMPONENT FA
         PORT ( 
             A : IN STD_LOGIC;
             B : IN STD_LOGIC;
@@ -56,7 +36,7 @@ COMPONENT FA_0
      
 begin
 
-    FA_0_0 : FA_0 port map(
+    FA_0_0 : FA port map(
     A=>b0a1,
     B=>b1a0,
     C_in=>'0',
@@ -64,7 +44,7 @@ begin
     C_out=>c_0_0
     );
     
-    FA_0_1: FA_0 port map(
+    FA_0_1: FA port map(
     A=>b1a1,
     B=>b2a0,
     C_in=>c_0_0,
@@ -72,7 +52,7 @@ begin
     C_out=>c_0_1
     );
 
-    FA_0_2: FA_0 port map(
+    FA_0_2: FA port map(
     A=>b2a1,
     B=>b3a0,
     C_in=>c_0_1,
@@ -80,7 +60,7 @@ begin
     C_out=>c_0_2
     );
 
-    FA_0_3: FA_0 port map(
+    FA_0_3: FA port map(
     A=>'0',
     B=>b3a1,
     C_in=>c_0_2,
@@ -88,7 +68,7 @@ begin
     C_out=>c_0_3
     );
 
-    FA_1_0: FA_0 port map(
+    FA_1_0: FA port map(
     A=> s_0_1,
     B=> b0a2,
     C_in=>'0',
@@ -96,7 +76,7 @@ begin
     C_out=>c_1_0
     );
 
-    FA_1_1: FA_0 port map(
+    FA_1_1: FA port map(
     A => s_0_2,
     B =>b1a2,
     C_in => c_1_0,
@@ -104,7 +84,7 @@ begin
     C_out=>c_1_1
     );
 
-    FA_1_2: FA_0 port map(
+    FA_1_2: FA port map(
     A=>s_0_3,
     B=>b2a2,
     C_in=>c_1_1,
@@ -112,7 +92,7 @@ begin
     C_out=>c_1_2
     );
 
-    FA_1_3: FA_0 port map(
+    FA_1_3: FA port map(
     A=>c_0_3,
     B=>b3a2,
     C_in=>c_1_2,
@@ -128,7 +108,7 @@ begin
     C_out=>c_2_0
     );
 
-    FA_2_1: FA_0 port map(
+    FA_2_1: FA port map(
     A=>s_1_2,
     B=>b1a3,
     C_in=>c_2_0,
@@ -144,7 +124,7 @@ begin
     C_out=>c_2_2
     );
 
-    FA_2_3: FA_0 port map(
+    FA_2_3: FA port map(
     A => c_1_3,
     B => b3a3,
     C_in => c_2_2,
