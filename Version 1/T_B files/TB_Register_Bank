@@ -1,0 +1,220 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+-- =============================================================
+--  Testbench : Register_Bank
+--  Student Index : 240553
+--  Binary of 240553 = 0011_1010_1000_1110_1001
+--
+--  4-bit D inputs derived from index chunks:
+--    Chunk 1 : 0011  (3)
+--    Chunk 2 : 1010  (A)
+--    Chunk 3 : 1000  (8)
+--    Chunk 4 : 1110  (E)
+--    Chunk 5 : 1001  (9)
+--
+--  Reg_En cycles through 000 -> 111 to target every register
+-- =============================================================
+
+entity TB_Register_Bank is
+end TB_Register_Bank;
+
+architecture Behavioral of TB_Register_Bank is
+
+    -- --------------------------------------------------------
+    --  Component Declaration
+    -- --------------------------------------------------------
+    component Register_Bank
+        Port (
+            Clk     : in  STD_LOGIC;
+            Reg_En  : in  STD_LOGIC_VECTOR (2 downto 0);
+            D       : in  STD_LOGIC_VECTOR (3 downto 0);
+            S_out_0 : out STD_LOGIC_VECTOR (3 downto 0);
+            S_out_1 : out STD_LOGIC_VECTOR (3 downto 0);
+            S_out_2 : out STD_LOGIC_VECTOR (3 downto 0);
+            S_out_3 : out STD_LOGIC_VECTOR (3 downto 0);
+            S_out_4 : out STD_LOGIC_VECTOR (3 downto 0);
+            S_out_5 : out STD_LOGIC_VECTOR (3 downto 0);
+            S_out_6 : out STD_LOGIC_VECTOR (3 downto 0);
+            S_out_7 : out STD_LOGIC_VECTOR (3 downto 0);
+            reset   : in  STD_LOGIC
+        );
+    end component;
+
+    -- --------------------------------------------------------
+    --  Signals
+    -- --------------------------------------------------------
+    signal Clk     : STD_LOGIC := '0';
+    signal reset   : STD_LOGIC := '0';
+    signal Reg_En  : STD_LOGIC_VECTOR (2 downto 0) := "000";
+    signal D       : STD_LOGIC_VECTOR (3 downto 0) := "0000";
+
+    signal S_out_0 : STD_LOGIC_VECTOR (3 downto 0);
+    signal S_out_1 : STD_LOGIC_VECTOR (3 downto 0);
+    signal S_out_2 : STD_LOGIC_VECTOR (3 downto 0);
+    signal S_out_3 : STD_LOGIC_VECTOR (3 downto 0);
+    signal S_out_4 : STD_LOGIC_VECTOR (3 downto 0);
+    signal S_out_5 : STD_LOGIC_VECTOR (3 downto 0);
+    signal S_out_6 : STD_LOGIC_VECTOR (3 downto 0);
+    signal S_out_7 : STD_LOGIC_VECTOR (3 downto 0);
+
+    -- Clock period
+    constant CLK_PERIOD : time := 10 ns;
+
+begin
+
+    -- --------------------------------------------------------
+    --  UUT Instantiation
+    -- --------------------------------------------------------
+    UUT : Register_Bank
+        port map (
+            Clk     => Clk,
+            Reg_En  => Reg_En,
+            D       => D,
+            S_out_0 => S_out_0,
+            S_out_1 => S_out_1,
+            S_out_2 => S_out_2,
+            S_out_3 => S_out_3,
+            S_out_4 => S_out_4,
+            S_out_5 => S_out_5,
+            S_out_6 => S_out_6,
+            S_out_7 => S_out_7,
+            reset   => reset
+        );
+
+    -- --------------------------------------------------------
+    --  Clock Generation : 100 MHz (10 ns period)
+    -- --------------------------------------------------------
+    CLK_PROC : process
+    begin
+        Clk <= '0';
+        wait for CLK_PERIOD / 2;
+        Clk <= '1';
+        wait for CLK_PERIOD / 2;
+    end process;
+
+    -- --------------------------------------------------------
+    --  Stimulus Process
+    --  Index  : 240553
+    --  Binary : 0011_1010_1000_1110_1001
+    -- --------------------------------------------------------
+    STIM_PROC : process
+    begin
+
+        -- =====================================================
+        --  PHASE 1 : Reset all registers
+        -- =====================================================
+        reset  <= '1';
+        Reg_En <= "000";
+        D      <= "0000";
+        wait for CLK_PERIOD * 2;        -- hold reset for 2 cycles
+        reset  <= '0';
+        wait for CLK_PERIOD;
+
+        -- =====================================================
+        --  PHASE 2 : Write index-derived values into each register
+        --
+        --   Reg 0 (Reg_En="000") <- D = 0011  (digit group 1 of 240553)
+        --   Reg 1 (Reg_En="001") <- D = 1010  (digit group 2)
+        --   Reg 2 (Reg_En="010") <- D = 1000  (digit group 3)
+        --   Reg 3 (Reg_En="011") <- D = 1110  (digit group 4)
+        --   Reg 4 (Reg_En="100") <- D = 1001  (digit group 5)
+        --   Reg 5 (Reg_En="101") <- D = 0011  (reuse group 1 – index cycled)
+        --   Reg 6 (Reg_En="110") <- D = 1010  (reuse group 2)
+        --   Reg 7 (Reg_En="111") <- D = 1000  (reuse group 3)
+        -- =====================================================
+
+        -- Write 0011 into Register 0
+        Reg_En <= "000";
+        D      <= "0011";               -- 0x3  (from index 240553)
+        wait for CLK_PERIOD;
+
+        -- Write 1010 into Register 1
+        Reg_En <= "001";
+        D      <= "1010";               -- 0xA
+        wait for CLK_PERIOD;
+
+        -- Write 1000 into Register 2
+        Reg_En <= "010";
+        D      <= "1000";               -- 0x8
+        wait for CLK_PERIOD;
+
+        -- Write 1110 into Register 3
+        Reg_En <= "011";
+        D      <= "1110";               -- 0xE
+        wait for CLK_PERIOD;
+
+        -- Write 1001 into Register 4
+        Reg_En <= "100";
+        D      <= "1001";               -- 0x9
+        wait for CLK_PERIOD;
+
+        -- Write 0011 into Register 5
+        Reg_En <= "101";
+        D      <= "0011";               -- 0x3 (index cycled)
+        wait for CLK_PERIOD;
+
+        -- Write 1010 into Register 6
+        Reg_En <= "110";
+        D      <= "1010";               -- 0xA
+        wait for CLK_PERIOD;
+
+        -- Write 1000 into Register 7
+        Reg_En <= "111";
+        D      <= "1000";               -- 0x8
+        wait for CLK_PERIOD;
+
+        -- =====================================================
+        --  PHASE 3 : Observe all outputs (no new write)
+        --  Set Reg_En to invalid / unused so no reg is written.
+        --  All outputs should hold their written values.
+        -- =====================================================
+        Reg_En <= "000";                -- decoder still selects Reg0,
+        D      <= "0000";              -- but D is 0; wait — keep En active
+        -- To avoid accidental overwrite we just observe for a few cycles
+        wait for CLK_PERIOD * 3;
+
+        -- =====================================================
+        --  PHASE 4 : Overwrite Register 2 with a new value
+        --  New value : 0101  (complement of 1010, still from index digits)
+        -- =====================================================
+        Reg_En <= "010";
+        D      <= "0101";               -- overwrite Reg 2
+        wait for CLK_PERIOD;
+
+        -- Observe updated outputs
+        Reg_En <= "000";
+        D      <= "0000";
+        wait for CLK_PERIOD * 2;
+
+        -- =====================================================
+        --  PHASE 5 : Apply reset again — all outputs must go to 0000
+        -- =====================================================
+        reset  <= '1';
+        wait for CLK_PERIOD * 2;
+
+        -- Verify all outputs are 0 after reset
+        -- (check in simulator waveform)
+        reset  <= '0';
+        wait for CLK_PERIOD;
+
+        -- =====================================================
+        --  PHASE 6 : Re-write after reset to confirm recovery
+        -- =====================================================
+        Reg_En <= "101";
+        D      <= "0101";               -- 0x5
+        wait for CLK_PERIOD;
+
+        Reg_En <= "110";
+        D      <= "0011";               -- 0x3
+        wait for CLK_PERIOD;
+
+        -- Hold and observe
+        wait for CLK_PERIOD * 5;
+
+        -- End simulation
+        wait;
+
+    end process STIM_PROC;
+
+end Behavioral;
