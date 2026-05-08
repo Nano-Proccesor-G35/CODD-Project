@@ -1,0 +1,71 @@
+----------------------------------------------------------------------------------
+-- Company: UOM CSE
+-- Engineer: Binura Yeshan
+-- 
+-- Create Date: 08.05.2026
+-- Design Name: 
+-- Module Name: Comparator_4_bit - Behavioral
+-- Project Name: NanoProcessor
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 4-bit magnitude comparator.
+--              Inputs  : A, B  (4-bit unsigned)
+--              Outputs : A_GT_B ('1' when A > B)
+--                        A_EQ_B ('1' when A = B)
+--                        A_LT_B ('1' when A < B)
+--              Connected inside NanoProcessor to:
+--                  A  <- Reg_Check_In  (MUX A output, selected by Reg_Sel_A)
+--                  B  <- Mux_B_Out     (MUX B output, selected by Reg_Sel_B)
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+--use IEEE.NUMERIC_STD.ALL;
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity Comparator_4_bit is
+    Port (
+        A      : in  STD_LOGIC_VECTOR (3 downto 0);
+        B      : in  STD_LOGIC_VECTOR (3 downto 0);
+        A_GT_B : out STD_LOGIC;
+        A_EQ_B : out STD_LOGIC;
+        A_LT_B : out STD_LOGIC
+    );
+end Comparator_4_bit;
+
+architecture Behavioral of Comparator_4_bit is
+
+    signal eq3, eq2, eq1, eq0 : STD_LOGIC;
+    signal sig_GT, sig_EQ     : STD_LOGIC;
+
+begin
+
+    -- Bit-level equality (XNOR): eq_i = '1' when A(i) = B(i)
+    eq3 <= NOT (A(3) XOR B(3));
+    eq2 <= NOT (A(2) XOR B(2));
+    eq1 <= NOT (A(1) XOR B(1));
+    eq0 <= NOT (A(0) XOR B(0));
+
+    -- A > B: MSB-first cascade
+    sig_GT <= (A(3) AND NOT B(3))
+           OR (eq3 AND  A(2) AND NOT B(2))
+           OR (eq3 AND eq2 AND  A(1) AND NOT B(1))
+           OR (eq3 AND eq2 AND eq1 AND  A(0) AND NOT B(0));
+
+    -- A = B: all four bits equal
+    sig_EQ <= eq3 AND eq2 AND eq1 AND eq0;
+
+    -- Route to output ports
+    A_GT_B <= sig_GT;
+    A_EQ_B <= sig_EQ;
+    -- A < B: neither greater nor equal
+    A_LT_B <= NOT sig_GT AND NOT sig_EQ;
+
+end Behavioral;
