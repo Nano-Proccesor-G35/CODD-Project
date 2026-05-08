@@ -43,7 +43,7 @@ entity Instruction_Decoder is
         Jump_Flag : out STD_LOGIC;
         Address_To_Jump : out STD_LOGIC_VECTOR (2 downto 0);
         --CMP_En : out STD_LOGIC;
-        MUL_En : out STD_LOGIC);
+        MuL_Sel : out STD_LOGIC);
     
 end Instruction_Decoder;
 
