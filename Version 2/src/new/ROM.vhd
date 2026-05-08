@@ -35,6 +35,7 @@ type rom_type is array (0 to 7) of std_logic_vector(11 downto 0);
                    "001110010000", --ADD R7,R1
                    "001110100000", --ADD R7,R2
                    "001110110000", --ADD R7,R3
+                   "010010100000",   -- 7: MUL  R1, R2  → 3x3 = 9 in R1
                    "110000000111"  --JZR R0,7
 
  );
