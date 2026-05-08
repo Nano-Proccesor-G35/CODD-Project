@@ -1,0 +1,96 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+ 
+--use IEEE.NUMERIC_STD.ALL;
+--library UNISIM;
+--use UNISIM.VComponents.all;
+ 
+entity Decoder_2_to_4_TB is
+--  Port ( );
+end Decoder_2_to_4_TB;
+ 
+architecture Behavioral of Decoder_2_to_4_TB is
+ 
+component Decoder_2_to_4
+    Port (
+        I  : in  STD_LOGIC_VECTOR (1 downto 0);
+        EN : in  STD_LOGIC;
+        Y  : out STD_LOGIC_VECTOR (3 downto 0));
+end component;
+ 
+signal I  : std_logic_vector(1 downto 0) := "00";
+signal EN : std_logic := '0';
+signal Y  : std_logic_vector(3 downto 0);
+ 
+begin
+ 
+uut: Decoder_2_to_4 port map(
+    I  => I,
+    EN => EN,
+    Y  => Y);
+ 
+process
+begin
+ 
+    -- -------------------------------------------------------
+    -- EN = 1  (active): output should be one-hot
+    -- -------------------------------------------------------
+ 
+    -- Index digit 2 -> I = "10" -> Y = "0100" (Y2 active)
+    EN <= '1';
+    I  <= "10";
+    wait for 10ns;
+ 
+    -- Index digit 4 mod 4 = 0 -> I = "00" -> Y = "0001" (Y0 active)
+    EN <= '1';
+    I  <= "00";
+    wait for 10ns;
+ 
+    -- Index digit 0 -> I = "00" -> Y = "0001" (Y0 active)
+    EN <= '1';
+    I  <= "00";
+    wait for 10ns;
+ 
+    -- Index digit 5 mod 4 = 1 -> I = "01" -> Y = "0010" (Y1 active)
+    EN <= '1';
+    I  <= "01";
+    wait for 10ns;
+ 
+    -- Index digit 5 mod 4 = 1 -> I = "01" -> Y = "0010" (Y1 active)
+    EN <= '1';
+    I  <= "01";
+    wait for 10ns;
+ 
+    -- Index digit 3 -> I = "11" -> Y = "1000" (Y3 active)
+    EN <= '1';
+    I  <= "11";
+    wait for 10ns;
+ 
+    -- -------------------------------------------------------
+    -- EN = 0  (disabled): all outputs must be 0 regardless of I
+    -- -------------------------------------------------------
+ 
+    -- I = "10", EN = 0 -> Y = "0000"
+    EN <= '0';
+    I  <= "10";
+    wait for 10ns;
+ 
+    -- I = "01", EN = 0 -> Y = "0000"
+    EN <= '0';
+    I  <= "01";
+    wait for 10ns;
+ 
+    -- I = "11", EN = 0 -> Y = "0000"
+    EN <= '0';
+    I  <= "11";
+    wait for 10ns;
+ 
+    -- I = "00", EN = 0 -> Y = "0000"
+    EN <= '0';
+    I  <= "00";
+    wait for 10ns;
+ 
+    wait;
+ 
+end process;
+end Behavioral;
