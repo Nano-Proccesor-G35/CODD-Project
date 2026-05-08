@@ -1,3 +1,24 @@
+----------------------------------------------------------------------------------
+-- Company: UOM CSE
+-- Engineer: 240549F
+-- 
+-- Create Date: 05/07/2026 03:33:30 AM
+-- Design Name: 
+-- Module Name: adder_Subtractor_TB - Behavioral
+-- Project Name: Nano Processor 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
@@ -15,8 +36,9 @@ entity adder_Subtractor_TB is
 end adder_Subtractor_TB;
 
 architecture Behavioral of adder_Subtractor_TB is
+
 component AdderSubtracter
-Port ( A : in STD_LOGIC_Vector(3 downto 0);
+    Port ( A : in STD_LOGIC_Vector(3 downto 0);
            B : in STD_LOGIC_vector(3 downto 0);
            C_in : in STD_LOGIC_vector(1 downto 0);
            S : out STD_LOGIC_vector(3 downto 0);
@@ -24,44 +46,56 @@ Port ( A : in STD_LOGIC_Vector(3 downto 0);
            Zero : out std_logic;
            C_out_plus : out std_logic);
 end component;
-signal A,B,S: std_logic_vector(3 downto 0);
-signal Zero,C_out,C_out_plus : std_logic;
-signal C_in : std_logic_vector(1 downto 0);
+
+SIGNAL A,B,S: STD_LOGIC_VECTOR(3 downto 0);
+SIGNAL Zero,C_out,C_out_plus : STD_LOGIC;
+SIGNAL C_in : STD_LOGIC_VECTOR(1 downto 0);
 
 
 begin
 uut: AdderSubtracter port map(
-A=>A,
-B=>B,
-C_in=>C_in,
-S => S,
-Zero => Zero,
-C_out => C_out,
-C_out_plus => C_out_plus);
+    A=>A,
+    B=>B,
+    C_in=>C_in,
+    S => S,
+    Zero => Zero,
+    C_out => C_out,
+    C_out_plus => C_out_plus);
+
 process
 begin
+--INDEX 240549F   11 1010 1011 1110 0101
 
+C_in<="00";
+A<= "0101"; --last 4 
+B<= "1110"; --next last 4 
+wait for 100ns;
+
+C_in<="01";
+A<= "1110"; --next last 4 
+B<= "0101"; --last 4 
+wait for 100ns;
 
 C_in<="00";
 A<= "0010";
 B<= "0001";
-wait for 10ns;
+wait for 100ns;
 
 C_in<="00";
 A<= "0010";
 B<= "0010";
-wait for 10ns;
+wait for 100ns;
 
 C_in<="01";
 A<= "1000";
 B<= "0001";
-wait for 10ns;
+wait for 100ns;
 
 C_in<="01";
 A<= "0001";
 B<= "0001";
 
-wait for 1ns;
+wait for 100ns;
 
 C_in<="00";
 A<= "1111";
