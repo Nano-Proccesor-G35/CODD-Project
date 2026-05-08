@@ -41,7 +41,9 @@ entity Instruction_Decoder is
         Reg_Sel_B : out STD_LOGIC_VECTOR (2 downto 0);
         Add_Sub_Sel : out STD_LOGIC_VECTOR(1 downto 0);
         Jump_Flag : out STD_LOGIC;
-        Address_To_Jump : out STD_LOGIC_VECTOR (2 downto 0));
+        Address_To_Jump : out STD_LOGIC_VECTOR (2 downto 0);
+        CMP_En : out STD_LOGIC);
+   
 end Instruction_Decoder;
 
 architecture Behavioral of Instruction_Decoder is
@@ -60,5 +62,7 @@ begin
  Jump_Flag <= NOT( Reg_check_jump(0) Or  Reg_check_jump(1) OR Reg_check_jump(2) OR Reg_check_jump(3)) AND data(11) AND data(10);
  
  Address_To_Jump <= data(2 downto 0);
+
+ CMP_En <= (NOT data(11)) AND data(10) AND (NOT data(9)) AND (NOT data(8)) AND (NOT data(7));-- this is for comparator 01 000 RRR 0000
 
 end Behavioral;
