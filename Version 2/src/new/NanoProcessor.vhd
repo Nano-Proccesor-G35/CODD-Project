@@ -56,9 +56,9 @@ component Instruction_Decoder
            Jump_Flag       : out STD_LOGIC;
            Address_To_Jump : out STD_LOGIC_VECTOR (2 downto 0);
            -- NEW PORTS:
-           Comp_GT         : in  STD_LOGIC;
-           Comp_EQ         : in  STD_LOGIC;
-           Comp_LT         : in  STD_LOGIC;
+          -- Comp_GT         : in  STD_LOGIC;
+          -- Comp_EQ         : in  STD_LOGIC;
+          -- Comp_LT         : in  STD_LOGIC;
            Mul_Sel         : out STD_LOGIC);
 end component;
 
@@ -146,7 +146,7 @@ signal AddSubSel   : STD_LOGIC_VECTOR (1 downto 0);
 
 
 -- NEW SIGNALS
-signal Comp_GT, Comp_EQ, Comp_LT : STD_LOGIC;
+--signal Comp_GT, Comp_EQ, Comp_LT : STD_LOGIC;
 signal Mult_Result                : STD_LOGIC_VECTOR (7 downto 0);
 signal Mul_Sel                    : STD_LOGIC;
 signal Mul_or_Add_Out             : STD_LOGIC_VECTOR (3 downto 0);
@@ -195,9 +195,9 @@ begin
                   Jump_Flag       => Mux0_Sel,
                   Address_To_Jump => Mux0_I1,
                   -- NEW connections:
-                  Comp_GT         => Comp_GT,
-                  Comp_EQ         => Comp_EQ,
-                  Comp_LT         => Comp_LT,
+                 -- Comp_GT         => Comp_GT,
+                 -- Comp_EQ         => Comp_EQ,
+                 -- Comp_LT         => Comp_LT,
                   Mul_Sel         => Mul_Sel );
 
     -- NEW MUX: selects between ALU result and MUL lower 4 bits
@@ -283,12 +283,12 @@ begin
     -- ================================================================
     -- NEW: Comparator
     -- ================================================================
-    Comparator : Comparator_4_bit
-        Port map( A      => Reg_Check_In,
-                  B      => Mux_B_Out,
-                  A_GT_B => Comp_GT,
-                  A_EQ_B => Comp_EQ,
-                  A_LT_B => Comp_LT );
+  --  Comparator : Comparator_4_bit
+     --   Port map( A      => Reg_Check_In,
+             --     B      => Mux_B_Out,
+                --  A_GT_B => Comp_GT,
+                --  A_EQ_B => Comp_EQ,
+                 -- A_LT_B => Comp_LT );
 
     -- ================================================================
     -- NEW: Multiplier
