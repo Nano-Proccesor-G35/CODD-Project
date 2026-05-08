@@ -1,5 +1,3 @@
--------------------------
-
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
@@ -19,22 +17,20 @@ entity Slow_clk is
 end Slow_clk;
 
 architecture Behavioral of Slow_clk is
-    signal count: integer:=1;
-    signal clk_status: std_logic:='0';
+    signal count: integer := 0;
+    signal clk_status: std_logic := '0';
     
-
 begin
-    
     process(Clk_in)
     begin
         if(rising_edge(Clk_in)) then
-            count<=count+1;
-            if(count = 1) then
+            count <= count + 1;
+            if(count = 50000000) then
                 clk_status <= not(clk_status);
                 Clk_out <= clk_status;
-                count<=1;
-                end if;
+                count <= 0;
             end if;
+        end if;
     end process;
-
+            
 end Behavioral;
