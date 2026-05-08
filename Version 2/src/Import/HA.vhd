@@ -1,3 +1,24 @@
+----------------------------------------------------------------------------------
+-- Company: UOM CSE
+-- Engineer: 240549F
+-- 
+-- Create Date: 05/07/2026 03:16:12 AM
+-- Design Name: 
+-- Module Name: HA - Behavioral
+-- Project Name: NanoProcessor
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
