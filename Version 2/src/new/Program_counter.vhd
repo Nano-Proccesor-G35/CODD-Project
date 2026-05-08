@@ -11,22 +11,22 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity program_Counter is
-    Port ( D : in STD_LOGIC_VECTOR (2 downto 0);
-           Reset : in STD_LOGIC:='0';
-           Clk : in STD_LOGIC;
-           Q : out STD_LOGIC_vector(2 downto 0):="000");
+    Port ( D : in STD_LOGIC_VECTOR (3 downto 0);    
+       Reset : in STD_LOGIC:='0';
+       Clk : in STD_LOGIC;
+       Q : out STD_LOGIC_vector(3 downto 0):="0000");  
 end program_Counter;
 
 architecture Behavioral of program_Counter is
 begin
-    process(Clk) begin
-    if(rising_edge(Clk)) then
-        if Reset = '1' then
-            Q <= "000";        
-        else
-            Q <= D;
-        end if;
-     end if;
- end process;
+process(Clk) begin
+if(rising_edge(Clk)) then
+    if Reset = '1' then
+        Q <= "0000";       
+    else
+        Q <= D;
+    end if;
+ end if;
+end process;
 
 end Behavioral;
