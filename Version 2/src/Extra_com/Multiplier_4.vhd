@@ -100,7 +100,7 @@ begin
     C_out=>c_1_3
     );
 
-    FA_2_0: FA_0 port map(
+    FA_2_0: FA port map(
     A=>s_1_1,
     B=>b0a3,
     C_in=>'0',
@@ -116,7 +116,7 @@ begin
     C_out=>c_2_1
     );
 
-    FA_2_2: FA_0 port map(
+    FA_2_2: FA port map(
     A=>s_1_3,
     B=>b2a3,
     C_in=>c_2_1,
