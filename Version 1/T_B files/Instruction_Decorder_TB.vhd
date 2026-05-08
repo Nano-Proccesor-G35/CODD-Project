@@ -2,9 +2,9 @@
 -- Company: UOM CSE
 -- Engineer: 240549F
 -- 
--- Create Date: 05/08/2026 04:21:09 PM
+-- Create Date: 05/08/2026 05:35:57 PM
 -- Design Name: 
--- Module Name: Instruction_Decoder - Behavioral
+-- Module Name: Instruction_Decorder_TB - Behavioral
 -- Project Name: NanoProcessor
 -- Target Devices: 
 -- Tool Versions: 
@@ -31,34 +31,68 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity Instruction_Decoder is
-   Port ( data : in STD_LOGIC_VECTOR (11 downto 0);
-        Reg_check_jump : in STD_LOGIC_VECTOR(3 downto 0);
-        Reg_En : out STD_LOGIC_VECTOR (2 downto 0);
-        Reg_Sel_A : out STD_LOGIC_VECTOR (2 downto 0);
-        Load_sel : out STD_LOGIC;
-        Immediate_val : out STD_LOGIC_VECTOR (3 downto 0);
-        Reg_Sel_B : out STD_LOGIC_VECTOR (2 downto 0);
-        Add_Sub_Sel : out STD_LOGIC_VECTOR(1 downto 0);
-        Jump_Flag : out STD_LOGIC;
-        Address_To_Jump : out STD_LOGIC_VECTOR (2 downto 0));
-end Instruction_Decoder;
+entity Instruction_Decorder_TB is
+--  Port ( );
+end Instruction_Decorder_TB;
 
-architecture Behavioral of Instruction_Decoder is
+architecture Behavioral of Instruction_Decorder_TB is
+
+component Instruction_Decoder
+ Port ( data : in STD_LOGIC_VECTOR (11 downto 0);
+          Reg_check_jump : in STD_LOGIC_VECTOR(3 downto 0);
+          Reg_En : out STD_LOGIC_VECTOR (2 downto 0);
+          Reg_Sel_A : out STD_LOGIC_VECTOR (2 downto 0);
+          Load_sel : out STD_LOGIC;
+          Immediate_val : out STD_LOGIC_VECTOR (3 downto 0);
+          Reg_Sel_B : out STD_LOGIC_VECTOR (2 downto 0);
+          Add_Sub_Sel : out STD_LOGIC_VECTOR(1 downto 0);
+          Jump_Flag : out STD_LOGIC;
+          Address_To_Jump : out STD_LOGIC_VECTOR (2 downto 0));
+end component;
+
+SIGNAL data : STD_LOGIC_VECTOR (11 downto 0);
+SIGNAL Reg_check_jump, Immediate_val : STD_LOGIC_VECTOR (3 downto 0);
+SIGNAL Address_To_Jump, Reg_En, Reg_Sel_A, Reg_Sel_B : STD_LOGIC_VECTOR (2 downto 0);
+SIGNAL Load_sel, Jump_Flag : STD_LOGIC;
+SIGNAL Add_Sub_Sel : STD_LOGIC_VECTOR(1 downto 0);
 
 begin
 
- Reg_En <= data(9 downto 7);
- Reg_Sel_A <= data(9 downto 7);
- Reg_Sel_B <=  data(6 downto 4);
- 
- Load_Sel <= data(11)and not(data(10));
- Immediate_val <= data(3 downto 0);
- 
- Add_Sub_Sel <= data(11 downto 10);
- 
- Jump_Flag <= NOT( Reg_check_jump(0) Or  Reg_check_jump(1) OR Reg_check_jump(2) OR Reg_check_jump(3)) AND data(11) AND data(10);
- 
- Address_To_Jump <= data(2 downto 0);
+uut:
+Instruction_Decoder port map( 
+    data => data,
+    Reg_check_jump=> Reg_check_jump,
+    Immediate_val=>Immediate_val,
+    Address_To_Jump=> Address_To_Jump,
+    Reg_En=>Reg_En,
+    Reg_Sel_A=> Reg_Sel_A,
+    Reg_Sel_B=>Reg_Sel_B,
+    Add_Sub_Sel=>Add_Sub_Sel,
+    Load_sel => Load_sel,
+    Jump_Flag=>Jump_Flag);
 
+process begin
+    Reg_check_jump <= "0101";
+    
+    data <= "001011000000";
+    wait for 100ns;
+    
+    data <= "010110000000";
+    wait for 100ns;
+    
+    data <= "101110001010";
+    wait for 100ns;
+    
+    Reg_check_jump <= "0000";
+    
+    data <= "110100000111";
+    wait for 100ns;
+    
+    data <= "110000000111";
+    wait for 100ns;
+    
+    wait;
+
+end process;
+ 
 end Behavioral;
