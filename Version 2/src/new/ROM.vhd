@@ -17,7 +17,7 @@ entity ROM is
 end ROM;
 
 architecture Behavioral of ROM is
-type rom_type is array (0 to 7) of std_logic_vector(11 downto 0);
+type rom_type is array (0 to 8) of std_logic_vector(11 downto 0);
  
  signal program_ROM : rom_type := (
        -- "100000000001", -- 0
@@ -27,7 +27,8 @@ type rom_type is array (0 to 7) of std_logic_vector(11 downto 0);
         --"001110010000", --4
         --"001110100000",--5
         --"001110110000", --6
-        --"110000000111" --7
+        --"010010100000", -- 7
+        --"110000000111" --8
                    "100010000001",  --MOVI R1,1
                    "100100000010", --MOVI R2,2
                    "100110000011", --MOVI R3,3
