@@ -65,6 +65,6 @@ begin
  Address_To_Jump <= data(2 downto 0);
 
  --CMP_En <= (NOT data(11)) AND data(10) AND (NOT data(9)) AND (NOT data(8)) AND (NOT data(7));-- this is for comparator 01 000 RRR 0000
- MUL_En <= (NOT data(11)) AND data(10) AND (data(9) OR data(8) OR data(7));  --this is for multiplication 
+ MuL_Sel <= (NOT data(11)) AND data(10) AND (data(9) OR data(8) OR data(7));  --this is for multiplication 
 
 end Behavioral;
