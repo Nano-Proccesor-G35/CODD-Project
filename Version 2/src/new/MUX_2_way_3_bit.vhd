@@ -11,28 +11,27 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity MUX_2_way_3_bit is
- Port ( I0 : in STD_LOGIC_VECTOR (2 downto 0);
-          I1 : in STD_LOGIC_VECTOR (2 downto 0);
-          D  : out STD_LOGIC_VECTOR (2 downto 0);
-          S  : in STD_LOGIC);
+ Port ( I0 : in STD_LOGIC_VECTOR (3 downto 0);   
+       I1 : in STD_LOGIC_VECTOR (3 downto 0);   
+       D  : out STD_LOGIC_VECTOR (3 downto 0);  
+       S  : in STD_LOGIC);
 end MUX_2_way_3_bit;
 
 architecture Behavioral of MUX_2_way_3_bit is
-Signal Z1,Z2,Z3,Z4,Z5,Z6 : STD_LOGIC;
-
+Signal Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8 : STD_LOGIC;  
 begin
-
 Z1 <= (I0(0) AND not S);
 Z2 <= (I1(0) AND S);
 Z3 <= (I0(1) AND not S);
 Z4 <= (I1(1) AND S);
 Z5 <= (I0(2) AND not S);
 Z6 <= (I1(2) AND S);
-
+Z7 <= (I0(3) AND not S);   
+Z8 <= (I1(3) AND S);       
 D(0) <= Z1 OR Z2;
 D(1) <= Z3 OR Z4;
 D(2) <= Z5 OR Z6;
-
+D(3) <= Z7 OR Z8;
 
 
 end Behavioral;
